@@ -141,7 +141,7 @@ def make_food():
     global c
     c=c+1
     print (c)
-    turtle.write('c')
+    turtle.write(c)
 def move_snake():
     my_pos=snake.pos()
     x_pos=my_pos[0]
