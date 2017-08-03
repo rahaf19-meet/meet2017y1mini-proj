@@ -20,7 +20,7 @@ food_stamps=[]
 
 #Set up position (x,y)of boxes that make up the snake
 snake=turtle.clone()
-snake.shape('square')
+snake.shape('triangle')
 
 turtle.hideturtle()
 
@@ -70,11 +70,9 @@ def down():
     global direction
     if direction != UP:
         direction=DOWN
-    
     #move_snake()
     print('You pressed the down key!')
-    
-        
+      
 
 def left():
     global direction
@@ -96,34 +94,13 @@ turtle.onkeypress(left,LEFT_ARROW)
 turtle.onkeypress(right,RIGHT_ARROW)
 
 turtle.listen()
-    
-##def make_trashfood():
-##food_pos=[]
-##food_stamps=[]
-##min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
-##max_x=int(SIZE_X/2/SQUARE_SIZE)-1
-##min_y=-int(SIZE_X/2/SQUARE_SIZE)-1
-##max_y=int(SIZE_X/2/SQUARE_SIZE)+1
-##food_x=random.randint(min_x,max_x)*SQUARE_SIZE
-##food_y=random.randint(min_y,max_y)*SQUARE_SIZE
-##food.goto(food_x,food_y)
-##food_turtle_pos=(food_x,food_y)
-##food_pos.append(food_turtle_pos)
-##foodstamps=food.stamp()
-##food_stamps.append(foodstamps)
-#foodstamps=food.stamp()
-    #food_stamps.append(foodstamps)
-    
-    #food.goto(food_x,food_y)
-    #foodstamps=food.stamp()
-    #food_stamps.append(foodstamps)
-#food.hideturtle()
 
-turtle.register_shape('trash.gif')
+turtle.register_shape('trash(1).gif')
 food= turtle.clone()
-food.shape('trash.gif')
+food.shape('trash(1).gif')
 
 def make_food():
+    #in this function we make it make food
     min_x=-int(SIZE_X/2/SQUARE_SIZE)+1
     max_x=int(SIZE_X/2/SQUARE_SIZE)-1
     min_y=-int(SIZE_Y/2/SQUARE_SIZE)+1
@@ -131,18 +108,18 @@ def make_food():
 
     food_x=random.randint(min_x,max_x)*SQUARE_SIZE
     food_y=random.randint(min_y,max_y)*SQUARE_SIZE
-
-    food.goto(food_x,food_y)
     food_turtle_pos=(food_x,food_y)
+    while food_turtle_pos in pos_list:
+        food_x=random.randint(min_x,max_x)*SQUARE_SIZE
+        food_y=random.randint(min_y,max_y)*SQUARE_SIZE
+        food_turtle_pos=(food_x,food_y)
+    food.goto(food_x,food_y)
     food_pos.append(food_turtle_pos)
-
+        
     foodstamps=food.stamp()
     food_stamps.append(foodstamps)
-    global c
-    c=c+1
-    print (c)
-    turtle.write(c)
 def move_snake():
+    #in this function we make the snake move
     my_pos=snake.pos()
     x_pos=my_pos[0]
     y_pos=my_pos[1]
@@ -173,6 +150,7 @@ def move_snake():
     global food_stamps, food_pos
     
     if snake.pos() in food_pos:
+        #we make the snake at the food 
         food_ind=food_pos.index(snake.pos())
         food.clearstamp(food_stamps[food_ind])
 
@@ -180,9 +158,16 @@ def move_snake():
         food_stamps.pop(food_ind)
         print('You have eaten the food!')
         make_food()
+        global c
+        c=c+1
+        print(c)
+        turtle.goto(-350,200)
+        turtle.clear()
+        turtle.write(c)
              
 
     else:
+        #we make the snake get longer when not using this one
         old_stamp= stamp_list.pop(0)
         snake.clearstamp(old_stamp)
         pos_list.pop(0)
@@ -207,13 +192,14 @@ def move_snake():
         print('You hit the down edge! Game Over!')
         quit()
     if pos_list[-1] in pos_list[0:-1]:
+        #we make sore that the snake doesn't eat itself
         print('You ate yourself!')
         quit()
-    turtle.ontimer(move_snake,TIME_STEP)
 
+    turtle.ontimer(move_snake,TIME_STEP)
+#we call the functions here
 make_food()
 move_snake()    
 
 
-#location of food
 
