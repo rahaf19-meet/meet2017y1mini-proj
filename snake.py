@@ -20,7 +20,7 @@ food_stamps=[]
 
 #Set up position (x,y)of boxes that make up the snake
 snake=turtle.clone()
-snake.shape('triangle')
+snake.shape('square')
 
 turtle.hideturtle()
 
